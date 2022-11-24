@@ -18,13 +18,12 @@ const janazaReq_index = async (req, res, next) => {
   }
 };
 
-const janazaReq_getAll = async (req, res, next) => {
+const janazaReq_getApproved = async (req, res, next) => {
   try {
-    if (req.status=="Approved") {
-      const reqs = await janazaReq.find();
+      const reqs = await janazaReq.find({status: "Approved"});
       return res.status(200).send(reqs);
-    } 
-  } catch (err) {
+  }
+  catch (err) {
     console.log(err.message);
     next(err);
   }
@@ -84,6 +83,7 @@ const approve_janaza = async (req, res) => {
     return res.sendStatus(403);
   }
 };
+
 const decline_janaza = async (req, res) => {
   try {
     const id = req.params.id;
@@ -118,5 +118,5 @@ module.exports = {
   deletejanazaReq,
   approve_janaza,
   decline_janaza,
-  janazaReq_getAll
+  janazaReq_getApproved
 };

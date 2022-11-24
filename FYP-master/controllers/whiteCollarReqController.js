@@ -18,6 +18,17 @@ const whiteCollarReq_index = async (req, res, next) => {
   }
 };
 
+const whiteCollarReq_getApproved = async (req, res, next) => {
+  try {
+      const reqs = await Request.find({status: "Approved"});
+      return res.status(200).send(reqs);
+  }
+  catch (err) {
+    console.log(err.message);
+    next(err);
+  }
+};
+
 const whiteCollarReq_create_post = async (req, res) => {
   const newWhiteCollarReq = new Request(req.body);
 
@@ -100,6 +111,7 @@ const whiteCollarReq_get_by_id = async (req, res) => {
 
 module.exports = {
   whiteCollarReq_index,
+  whiteCollarReq_getApproved,
   whiteCollarReq_create_post,
   whiteCollarReq_get_by_id,
   updatewhiteCollarReq,

@@ -5,7 +5,7 @@ const verify = require("../utils/auth");
 
 router.get("/", verify, janazaReqController.janazaReq_index);
 
-router.get("/getAll", janazaReqController.janazaReq_getAll);
+router.get("/getApproved", janazaReqController.janazaReq_getApproved);
 
 router.get("/approve/:id", janazaReqController.approve_janaza);
 

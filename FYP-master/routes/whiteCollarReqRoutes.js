@@ -5,6 +5,8 @@ const verify = require("../utils/auth");
 
 router.get("/", verify, whiteCollarReqController.whiteCollarReq_index);
 
+router.get("/getApproved", whiteCollarReqController.whiteCollarReq_getApproved);
+
 router.get("/approve/:id", whiteCollarReqController.approve_collar);
 
 router.get("/decline/:id", whiteCollarReqController.decline_collar);
