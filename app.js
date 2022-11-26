@@ -154,7 +154,7 @@ app.get("/api/donationRecord", async (req, res) => {
 app.get("/api/janazaRecord", async (req, res) => {
   const data = await janaza.aggregate([
     {
-      $match : { status : "Donated" }},
+      $match : { status : "Approved" }},
     {
       $group: {
         _id: null,
@@ -168,7 +168,7 @@ app.get("/api/janazaRecord", async (req, res) => {
 app.get("/api/collarRecord", async (req, res) => {
   const data = await collar.aggregate([
     {
-      $match : { status : "Donated" }},
+      $match : { status : "Approved" }},
     {
       $group: {
         _id: null,

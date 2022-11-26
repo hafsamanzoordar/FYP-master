@@ -71,6 +71,7 @@ const approve_donation = async (req, res) => {
     return res.sendStatus(403);
   }
 };
+
 const decline_donation = async (req, res) => {
   try {
     const id = req.params.id;
