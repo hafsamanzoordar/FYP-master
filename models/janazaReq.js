@@ -52,6 +52,10 @@ const janazaReqSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
     status: {
       type: String,
       default: "Pending",

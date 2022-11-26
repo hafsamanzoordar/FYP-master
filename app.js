@@ -140,8 +140,10 @@ app.put("/api/userProfile/:id", verify, async (req, res, next) => {
 app.get("/api/donationRecord", async (req, res) => {
   const data = await Donations.aggregate([
     {
+      $match : { status : "Transferred" }},
+    {
       $group: {
-        _id: "$category",
+        _i9d: "$category",
         total: { $sum: "$amount" },
       },
     },
@@ -151,6 +153,8 @@ app.get("/api/donationRecord", async (req, res) => {
 
 app.get("/api/janazaRecord", async (req, res) => {
   const data = await janaza.aggregate([
+    {
+      $match : { status : "Approved" }},
     {
       $group: {
         _id: null,
@@ -163,6 +167,8 @@ app.get("/api/janazaRecord", async (req, res) => {
 
 app.get("/api/collarRecord", async (req, res) => {
   const data = await collar.aggregate([
+    {
+      $match : { status : "Approved" }},
     {
       $group: {
         _id: null,

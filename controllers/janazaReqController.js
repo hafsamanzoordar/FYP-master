@@ -29,6 +29,32 @@ const janazaReq_getApproved = async (req, res, next) => {
   }
 };
 
+const janazaReq_getCleared = async (req, res, next) => {
+  try {
+      const reqs = await janazaReq.find({status: "Cleared"});
+      return res.status(200).send(reqs);
+  }
+  catch (err) {
+    console.log(err.message);
+    next(err);
+  }
+};
+
+const janazaReq_getDonated = async (req, res, next) => {
+  try {
+      email = req.user.email;
+      const user = await User.findOne({ email });
+      if (!user.isAdmin) {
+      const reqs = await janazaReq.find({status: "Donated", email:email});
+      return res.status(200).send(reqs);
+      }
+  }
+  catch (err) {
+    console.log(err.message);
+    next(err);
+  }
+};
+
 const janazaReq_create_post = async (req, res) => {
   const newJanazaReq = new janazaReq(req.body);
 
@@ -68,10 +94,47 @@ const deletejanazaReq = async (req, res, next) => {
 const approve_janaza = async (req, res) => {
   try {
     const id = req.params.id;
-
     const request = await janazaReq.findById(id);
     if (request) {
       request.status = "Approved";
+      console.log(request);
+      request.save();
+      return res.status(200);
+    } else {
+      return res.status(403);
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(403);
+  }
+};
+
+const donate_janaza = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const request = await janazaReq.findById(id);
+    if (request) {
+      request.status = "Donated";
+      console.log(request);
+      request.save();
+      return res.status(200);
+    } else {
+      return res.status(403);
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(403);
+  }
+};
+
+const clear_janaza = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const request = await janazaReq.findById(id);
+    if (request) {
+      request.status = "Cleared";
       console.log(request);
       request.save();
       return res.status(200);
@@ -112,11 +175,15 @@ const janazaReq_get_by_id = async (req, res) => {
 
 module.exports = {
   janazaReq_index,
+  janazaReq_getApproved,
+  janazaReq_getCleared,
+  janazaReq_getDonated,
   janazaReq_create_post,
   janazaReq_get_by_id,
   updatejanazaReq,
   deletejanazaReq,
   approve_janaza,
-  decline_janaza,
-  janazaReq_getApproved
+  donate_janaza,
+  clear_janaza,
+  decline_janaza
 };
