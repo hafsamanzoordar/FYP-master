@@ -1,5 +1,6 @@
 const janazaReq = require("../models/janazaReq");
 const User = require("../models/user");
+const specificDonation = require("../models/specificDonation");
 
 const janazaReq_index = async (req, res, next) => {
   try {
@@ -33,21 +34,6 @@ const janazaReq_getCleared = async (req, res, next) => {
   try {
       const reqs = await janazaReq.find({status: "Cleared"});
       return res.status(200).send(reqs);
-  }
-  catch (err) {
-    console.log(err.message);
-    next(err);
-  }
-};
-
-const janazaReq_getDonated = async (req, res, next) => {
-  try {
-      email = req.user.email;
-      const user = await User.findOne({ email });
-      if (!user.isAdmin) {
-      const reqs = await janazaReq.find({status: "Donated", email:email});
-      return res.status(200).send(reqs);
-      }
   }
   catch (err) {
     console.log(err.message);
@@ -109,24 +95,6 @@ const approve_janaza = async (req, res) => {
   }
 };
 
-const donate_janaza = async (req, res) => {
-  try {
-    const id = req.params.id;
-
-    const request = await janazaReq.findById(id);
-    if (request) {
-      request.status = "Donated";
-      request.save();
-      return res.status(200).json("The amount has been donated.");
-    } else {
-      return res.status(403);
-    }
-  } catch (error) {
-    console.log(error.message);
-    return res.sendStatus(403);
-  }
-};
-
 const clear_janaza = async (req, res) => {
   try {
     const id = req.params.id;
@@ -176,13 +144,11 @@ module.exports = {
   janazaReq_index,
   janazaReq_getApproved,
   janazaReq_getCleared,
-  janazaReq_getDonated,
   janazaReq_create_post,
   janazaReq_get_by_id,
   updatejanazaReq,
   deletejanazaReq,
   approve_janaza,
-  donate_janaza,
   clear_janaza,
   decline_janaza
 };

@@ -9,15 +9,11 @@ router.get("/getApproved", whiteCollarReqController.whiteCollarReq_getApproved);
 
 router.get("/getCleared", whiteCollarReqController.whiteCollarReq_getCleared);
 
-router.get("/getDonated", verify, whiteCollarReqController.whiteCollarReq_getDonated);
-
 router.get("/approve/:id", whiteCollarReqController.approve_collar);
 
-router.get("/donate/:id", whiteCollarReqController.donate_collar);
+router.get("/decline/:id", whiteCollarReqController.decline_collar);
 
 router.get("/clear/:id", whiteCollarReqController.clear_collar);
-
-router.get("/decline/:id", whiteCollarReqController.decline_collar);
 
 router.post("/", whiteCollarReqController.whiteCollarReq_create_post);
 

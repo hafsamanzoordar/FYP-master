@@ -9,15 +9,11 @@ router.get("/getApproved", janazaReqController.janazaReq_getApproved);
 
 router.get("/getCleared", janazaReqController.janazaReq_getCleared);
 
-router.get("/getDonated", verify, janazaReqController.janazaReq_getDonated);
-
 router.get("/approve/:id", janazaReqController.approve_janaza);
 
-router.get("/donate/:id", janazaReqController.donate_janaza);
+router.get("/decline/:id", janazaReqController.decline_janaza);
 
 router.get("/clear/:id", janazaReqController.clear_janaza);
-
-router.get("/decline/:id", janazaReqController.decline_janaza);
 
 router.post("/", janazaReqController.janazaReq_create_post);
 

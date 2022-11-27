@@ -1,5 +1,6 @@
 const Donation = require("../models/donation");
 const User = require("../models/user");
+const specificDonation = require("../models/specificDonation");
 
 const donation_index = async (req, res, next) => {
   try {
@@ -18,6 +19,25 @@ const donation_index = async (req, res, next) => {
   }
 };
 
+const getDonation = async (req, res, next) => {
+  try {
+      email = req.user.email;
+      const user = await User.findOne({ email });
+      if (user.isAdmin) {
+      const reqs = await specificDonation.find();
+      return res.status(200).send(reqs);
+      }
+      else {
+      const reqs = await specificDonation.find({ email:email});
+      return res.status(200).send(reqs);
+      }
+  }
+  catch (err) {
+    console.log(err.message);
+    next(err);
+  }
+};
+
 const donation_create_post = async (req, res) => {
   console.log("request recieved");
   const newDonation = new Donation(req.body);
@@ -30,6 +50,24 @@ const donation_create_post = async (req, res) => {
       console.log(err);
     };
   }
+};
+
+const specific_donation_post = async (req, res) => {
+  email = req.user.email;
+  const user = await User.findOne({ email });
+  if (user) {
+  const newDonation = new specificDonation(req.body);
+
+  try {
+    const savedDonation = await newDonation.save();
+    res.status(200).json(savedDonation);
+  } catch {
+    (err) => {
+      res.status(500).json(err);
+      console.log(err);
+    };
+  }
+}
 };
 
 const updateDonation = async (req, res, next) => {
@@ -53,6 +91,7 @@ const deleteDonation = async (req, res, next) => {
     next(err);
   }
 };
+
 const approve_donation = async (req, res) => {
   try {
     const id = req.params.id;
@@ -62,7 +101,26 @@ const approve_donation = async (req, res) => {
       donation.status = "Transferred";
       console.log(donation);
       donation.save();
-      return res.status(200);
+      return res.status(200).json("The donation has been approved.");
+    } else {
+      return res.status(403);
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(403);
+  }
+};
+
+const approve_specific = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const donation = await specificDonation.findById(id);
+    if (donation) {
+      donation.status = "Transferred";
+      console.log(donation);
+      donation.save();
+      return res.status(200).json("The donation has been approved.");
     } else {
       return res.status(403);
     }
@@ -79,7 +137,24 @@ const decline_donation = async (req, res) => {
     if (donation) {
       donation.status = "Not received";
       donation.save();
-      return res.status(200);
+      return res.status(200).json("The donation has been declined.");
+    } else {
+      return res.status(403);
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(403);
+  }
+};
+
+const decline_specific = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const donation = await specificDonation.findById(id);
+    if (donation) {
+      donation.status = "Not received";
+      donation.save();
+      return res.status(200).json("The donation has been declined.");
     } else {
       return res.status(403);
     }
@@ -100,10 +175,14 @@ const donation_get_by_id = async (req, res) => {
 
 module.exports = {
   donation_index,
+  getDonation,
   donation_create_post,
+  specific_donation_post,
   donation_get_by_id,
   updateDonation,
   deleteDonation,
   approve_donation,
+  approve_specific,
   decline_donation,
+  decline_specific
 };
