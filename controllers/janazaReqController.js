@@ -99,7 +99,7 @@ const approve_janaza = async (req, res) => {
       request.status = "Approved";
       console.log(request);
       request.save();
-      return res.status(200);
+      return res.status(200).json("The request has been approved.");
     } else {
       return res.status(403);
     }
@@ -116,9 +116,8 @@ const donate_janaza = async (req, res) => {
     const request = await janazaReq.findById(id);
     if (request) {
       request.status = "Donated";
-      console.log(request);
       request.save();
-      return res.status(200);
+      return res.status(200).json("The amount has been donated.");
     } else {
       return res.status(403);
     }
@@ -137,7 +136,7 @@ const clear_janaza = async (req, res) => {
       request.status = "Cleared";
       console.log(request);
       request.save();
-      return res.status(200);
+      return res.status(200).json("The request has been cleared.");
     } else {
       return res.status(403);
     }
