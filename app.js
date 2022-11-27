@@ -143,7 +143,7 @@ app.get("/api/donationRecord", async (req, res) => {
       $match : { status : "Transferred" }},
     {
       $group: {
-        _i9d: "$category",
+        _id: "$category",
         total: { $sum: "$amount" },
       },
     },
@@ -157,7 +157,7 @@ app.get("/api/janazaRecord", async (req, res) => {
       $match : { status : "Approved" }},
     {
       $group: {
-        _id: null,
+        _id: "Total Janaza Requests",
         total: { $sum: "$amount" },
       },
     },
@@ -171,7 +171,7 @@ app.get("/api/collarRecord", async (req, res) => {
       $match : { status : "Approved" }},
     {
       $group: {
-        _id: null,
+        _id: "Total White Collar Requests",
         total: { $sum: "$amount" },
       },
     },
