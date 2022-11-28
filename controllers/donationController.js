@@ -39,7 +39,7 @@ const getDonation = async (req, res, next) => {
 };
 
 const donation_create_post = async (req, res) => {
-  console.log("request recieved");
+  console.log("donation recieved");
   const newDonation = new Donation(req.body);
   try {
     const savedDonation = await newDonation.save();
@@ -56,6 +56,7 @@ const specific_donation_post = async (req, res) => {
   email = req.user.email;
   const user = await User.findOne({ email });
   if (user) {
+  console.log("donation recieved");
   const newDonation = new specificDonation(req.body);
 
   try {
