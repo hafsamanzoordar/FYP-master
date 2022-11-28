@@ -53,7 +53,7 @@ const donation_create_post = async (req, res) => {
 };
 
 const specific_donation_post = async (req, res) => {
-  email = req.user.email;
+  // email = req.user.email;
   const user = await User.findOne({ email });
   if (user) {
   console.log("donation recieved");
