@@ -19,6 +19,7 @@ const express = require("express"),
   jwt = require("jsonwebtoken");
 const verify = require("./utils/auth");
 const Donation = require("./models/donation");
+const specificDonation = require("./models/specificDonation");
 
 //connect to mongodb and listen for requests
 const dbURI =
@@ -84,6 +85,16 @@ app.use((err, req, res, next) => {
   return res.status(errorStatus).json(errorMessage);
 });
 
+app.get("/api/topFundraisers", async (req, res) => {
+  try {
+    const user = await User.find();
+      return res.status(200).json(user);
+  } catch (err) {
+    console.log(err.message);
+    next(err);
+  }
+}); 
+
 app.get("/api/userProfile", async (req, res) => {
   if (req.header("x-access-token")) {
     token = req.header("x-access-token");
@@ -146,7 +157,7 @@ app.get("/api/donationRecord", async (req, res) => {
     },
   ]);
   res.send(data);
-});
+}); 
 
 app.get("/api/janazaRecord", async (req, res) => {
   const data = await janaza.aggregate([

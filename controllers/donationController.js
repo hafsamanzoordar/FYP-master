@@ -115,10 +115,19 @@ const approve_donation = async (req, res) => {
 const approve_specific = async (req, res) => {
   try {
     const id = req.params.id;
-
     const donation = await specificDonation.findById(id);
     if (donation) {
       donation.status = "Transferred";
+      // const request = await request.findById(id);
+      // const whiteCollar = whiteCollar.findById(id);
+      // if (donation.amount < whiteCollar.amount){
+      //   whiteCollar.amount = whiteCollar.amount - donation.amount;
+      //   whiteCollar.save();
+      // }
+      // else if (donation.amount < request.amount){
+      //   request.amount = request.amount - donation.amount;
+      //   request.save();
+      // }
       console.log(donation);
       donation.save();
       return res.status(200).json("The donation has been approved.");
