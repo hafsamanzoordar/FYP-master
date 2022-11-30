@@ -98,7 +98,6 @@ const approve_janaza = async (req, res) => {
 const clear_janaza = async (req, res) => {
   try {
     const id = req.params.id;
-
     const request = await janazaReq.findById(id);
     if (request) {
       request.status = "Cleared";

@@ -118,7 +118,7 @@ const clear_collar = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const request = await janazaReq.findById(id);
+    const request = await Request.findById(id);
     if (request) {
       request.status = "Cleared";
       console.log(request);
