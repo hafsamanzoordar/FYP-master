@@ -1,6 +1,7 @@
 const Request = require("../models/whiteCollarReq");
 const User = require("../models/user");
 const specificDonation = require("../models/specificDonation");
+const janazaReq = require("../models/janazaReq");
 
 const whiteCollarReq_index = async (req, res, next) => {
   try {
@@ -123,7 +124,7 @@ const clear_collar = async (req, res) => {
       request.status = "Cleared";
       console.log(request);
       request.save();
-      return res.status(200);
+      return res.status(200).send("The request has been cleared");
     } else {
       return res.status(403);
     }
