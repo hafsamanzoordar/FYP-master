@@ -1,6 +1,7 @@
 const Donation = require("../models/donation");
 const User = require("../models/user");
 const specificDonation = require("../models/specificDonation");
+const janazaReq = require("../models/janazaReq");
 
 const donation_index = async (req, res, next) => {
   try {

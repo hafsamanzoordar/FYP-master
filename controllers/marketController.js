@@ -1,4 +1,5 @@
 const Market = require("../models/market");
+const janazaReq = require("../models/janazaReq");
 
 const market_index = async (req, res, next) => {
   try {

@@ -1,4 +1,5 @@
 const Donation = require("../models/donation");
+const janazaReq = require("../models/janazaReq");
 
 const members = async (req, res, next) => {
   const goldMembers = await Donation.aggregate([

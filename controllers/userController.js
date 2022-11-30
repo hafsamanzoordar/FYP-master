@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const janazaReq = require("../models/janazaReq");
 
 const user_index = async (req, res, next) => {
   try {
