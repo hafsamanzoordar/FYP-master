@@ -87,8 +87,8 @@ app.use((err, req, res, next) => {
 
 app.get("/api/topFundraisers", async (req, res) => {
   try {
-    const user = await User.find();
-      return res.status(200).json(user);
+    const donation = await Donation.find();
+      return res.status(200).json(donation);
   } catch (err) {
     console.log(err.message);
     next(err);
