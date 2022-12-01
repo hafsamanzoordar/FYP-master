@@ -15,7 +15,7 @@ router.get("/decline/:id", donationController.decline_donation);
 
 router.get("/decline/specific/:id", donationController.decline_specific);
 
-router.post("/", donationController.donation_create_post);
+router.post("/", verify, donationController.donation_create_post);
 
 router.post("/janaza/:id", verify, donationController.janaza_donation_post);
 

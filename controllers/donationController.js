@@ -41,10 +41,14 @@ const getDonation = async (req, res, next) => {
 };
 
 const donation_create_post = async (req, res) => {
+  email = req.user.email;
+  const user = await User.findOne({ email });
   console.log("donation recieved");
   const newDonation = new Donation(req.body);
   try {
     const savedDonation = await newDonation.save();
+    user.total = user.total + savedDonation.amount;
+    user.save();
     res.status(200).json(savedDonation);
   } catch {
     (err) => {

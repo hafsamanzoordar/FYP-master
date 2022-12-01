@@ -85,14 +85,13 @@ app.use((err, req, res, next) => {
   return res.status(errorStatus).json(errorMessage);
 });
 
-app.get("/api/topFundraisers", async (req, res) => {
-  try {
-    const donation = await Donation.find();
-      return res.status(200).json(donation);
-  } catch (err) {
-    console.log(err.message);
-    next(err);
-  }
+app.get("/api/topFundraisers", async (req, res, next) => {
+  try{
+  const users = await User.find({total: {$gte: 100000} });
+  res.status(200).json(users);
+} catch (err) {
+  next(err);
+}
 }); 
 
 app.get("/api/userProfile", async (req, res) => {
@@ -106,21 +105,12 @@ app.get("/api/userProfile", async (req, res) => {
       if (decoded) {
         email = decoded.email;
         const user = await User.findOne({ email }).select(
-          "username email gender phone"
+          "username email gender phone total"
         );
-        const donations = await Donation.aggregate([
-          { $match: { email: user?.email } },
-          {
-            $group: {
-              _id: "$email",
-              total: { $sum: "$amount" },
-            },
-          },
-        ]);
         let membership = "Standard Member";
-        if (donations[0]?.total >= 100000) membership = "Gold Member";
-        else if (donations[0]?.total >= 50000) membership = "Silver Member";
-        else if (donations[0]?.total >= 25000) membership = "Bronze Member";
+        if (user.total >= 100000) membership = "Gold Member";
+        else if (user.total >= 50000) membership = "Silver Member";
+        else if (user.total >= 25000) membership = "Bronze Member";
         return res.status(200).send({
           ...user?._doc,
           membership,
