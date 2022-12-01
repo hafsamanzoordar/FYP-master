@@ -2,6 +2,7 @@ const Donation = require("../models/donation");
 const User = require("../models/user");
 const specificDonation = require("../models/specificDonation");
 const janazaReq = require("../models/janazaReq");
+const Request = require("../models/whiteCollarReq");
 
 const donation_index = async (req, res, next) => {
   try {
@@ -40,14 +41,10 @@ const getDonation = async (req, res, next) => {
 };
 
 const donation_create_post = async (req, res) => {
-  email = req.user.email;
-  const user = await User.findOne({email});
   console.log("donation recieved");
   const newDonation = new Donation(req.body);
   try {
     const savedDonation = await newDonation.save();
-    user.total = user.total + savedDonation.amount;
-    user.save();
     res.status(200).json(savedDonation);
   } catch {
     (err) => {
@@ -57,20 +54,44 @@ const donation_create_post = async (req, res) => {
   }
 };
 
-const specific_donation_post = async (req, res) => {
+const janaza_donation_post = async (req, res) => {
   email = req.user.email;
   id = req.params.id;
+  const janaza = await janazaReq.findById(id);
   const user = await User.findOne({ email });
   if (user) {
+  console.log("donation recieved");
   const newDonation = new specificDonation(req.body);
-  try {
-    const janaza = await janazaReq.findById(id);
+  try {   
     const savedDonation = await newDonation.save();
     user.total = user.total + savedDonation.amount;
     user.save();
-    janaza.amount = janaza.amount - savedDonation.amount;
+    janaza.amount = janaza.amount - savedDonation.amount;;
     janaza.save();
-    console.log("donation recieved");
+    res.status(200).json(savedDonation);
+  } catch {
+    (err) => {
+      res.status(500).json(err);
+      console.log(err);
+    };
+  }
+}
+};
+
+const collar_donation_post = async (req, res) => {
+  email = req.user.email;
+  id = req.params.id;
+  const collar = await Request.findById(id);
+  const user = await User.findOne({ email });
+  if (user) {
+  console.log("donation recieved");
+  const newDonation = new specificDonation(req.body);
+  try {   
+    const savedDonation = await newDonation.save();
+    user.total = user.total + savedDonation.amount;
+    user.save();
+    collar.amount = collar.amount - savedDonation.amount;;
+    collar.save();
     res.status(200).json(savedDonation);
   } catch {
     (err) => {
@@ -128,16 +149,6 @@ const approve_specific = async (req, res) => {
     const donation = await specificDonation.findById(id);
     if (donation) {
       donation.status = "Transferred";
-      // const request = await request.findById(id);
-      // const whiteCollar = whiteCollar.findById(id);
-      // if (donation.amount < whiteCollar.amount){
-      //   whiteCollar.amount = whiteCollar.amount - donation.amount;
-      //   whiteCollar.save();
-      // }
-      // else if (donation.amount < request.amount){
-      //   request.amount = request.amount - donation.amount;
-      //   request.save();
-      // }
       console.log(donation);
       donation.save();
       return res.status(200).json("The donation has been approved.");
@@ -197,7 +208,8 @@ module.exports = {
   donation_index,
   getDonation,
   donation_create_post,
-  specific_donation_post,
+  janaza_donation_post,
+  collar_donation_post,
   donation_get_by_id,
   updateDonation,
   deleteDonation,
