@@ -54,14 +54,17 @@ const donation_create_post = async (req, res) => {
 };
 
 const specific_donation_post = async (req, res) => {
-  // email = req.user.email;
+  email = req.user.email;
+  id = req.params.id;
   const user = await User.findOne({ email });
   if (user) {
-  console.log("donation recieved");
   const newDonation = new specificDonation(req.body);
-
   try {
+    const janaza = await janazaReq.findById(id);
     const savedDonation = await newDonation.save();
+    janaza.amount = janaza.amount - savedDonation.amount;
+    janaza.save();
+    console.log("donation recieved");
     res.status(200).json(savedDonation);
   } catch {
     (err) => {
