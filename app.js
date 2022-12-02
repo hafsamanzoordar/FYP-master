@@ -135,16 +135,30 @@ app.put("/api/userProfile/:id", verify, async (req, res, next) => {
   }
 });
 
+app.get("/api/totalDonations", async (req, res) => {
+  const data = await User.aggregate([
+    {
+      $group: {
+        _id: "Total Donations",
+        totalAmount: { $sum: "$total" },
+      }
+    }
+  ]);
+  res.send(data);
+}); 
+
 app.get("/api/donationRecord", async (req, res) => {
   const data = await Donations.aggregate([
     {
-      $match : { status : "Transferred" }},
-    {
+      $match: {
+          status: "Transferred"
+      }},
+      {
       $group: {
         _id: "$category",
         total: { $sum: "$amount" },
-      },
-    },
+      }
+    }
   ]);
   res.send(data);
 }); 
