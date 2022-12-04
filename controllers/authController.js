@@ -58,7 +58,7 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      if (user.isInactive == false) {
+      if (user.status == "Inactive") {
       // Create token
 
       const token = jwt.sign({ user_id: user._id, email }, process.env.secret, {

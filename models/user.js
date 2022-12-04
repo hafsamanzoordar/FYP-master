@@ -29,9 +29,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isInactive: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      default: "Active",
     },
     total: {
       type: Number,
