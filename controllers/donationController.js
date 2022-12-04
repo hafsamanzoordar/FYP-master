@@ -46,6 +46,7 @@ const donation_create_post = async (req, res) => {
   console.log("donation recieved");
   const newDonation = new Donation(req.body);
   try {
+    newDonation.status = "Transferred";
     const savedDonation = await newDonation.save();
     user.total = user.total + savedDonation.amount;
     user.save();
@@ -67,6 +68,7 @@ const janaza_donation_post = async (req, res) => {
   console.log("donation recieved");
   const newDonation = new specificDonation(req.body);
   try {   
+    newDonation.status = "Transferred";
     const savedDonation = await newDonation.save();
     user.total = user.total + savedDonation.amount;
     user.save();
@@ -91,6 +93,7 @@ const collar_donation_post = async (req, res) => {
   console.log("donation recieved");
   const newDonation = new specificDonation(req.body);
   try {   
+    newDonation.status = "Transferred";
     const savedDonation = await newDonation.save();
     user.total = user.total + savedDonation.amount;
     user.save();
