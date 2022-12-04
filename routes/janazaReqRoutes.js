@@ -11,6 +11,8 @@ router.get("/getCleared", janazaReqController.janazaReq_getCleared);
 
 router.get("/approve/:id", janazaReqController.approve_janaza);
 
+router.get("/donate/:id", janazaReqController.donate_janaza);
+
 router.get("/decline/:id", janazaReqController.decline_janaza);
 
 router.get("/clear/:id", janazaReqController.clear_janaza);

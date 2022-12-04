@@ -6,6 +6,10 @@ const whiteCollarReqSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    requestFor: {
+      type: String,
+      required: true,
+    },
     institute_name: {
       type: String,
       required: true,

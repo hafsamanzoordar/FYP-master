@@ -115,6 +115,25 @@ const approve_collar = async (req, res) => {
   }
 };
 
+const donate_collar = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const request = await Request.findById(id);
+    if (request) {
+      request.status = "Donated";
+      console.log(request);
+      request.save();
+      return res.status(200);
+    } else {
+      return res.status(403);
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(403);
+  }
+};
+
 const clear_collar = async (req, res) => {
   try {
     const id = req.params.id;
@@ -170,6 +189,7 @@ module.exports = {
   updatewhiteCollarReq,
   deletewhiteCollarReq,
   approve_collar,
+  donate_collar,
   clear_collar,
   decline_collar,
 };

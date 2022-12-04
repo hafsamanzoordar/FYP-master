@@ -139,7 +139,7 @@ app.get("/api/totalDonations", async (req, res) => {
   const data = await User.aggregate([
     {
       $group: {
-        _id: "Total Donations",
+        _id: "Total Donations Received",
         totalAmount: { $sum: "$total" },
       }
     }

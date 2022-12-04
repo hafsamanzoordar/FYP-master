@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isInactive: {
+      type: Boolean,
+      default: false,
+    },
     total: {
       type: Number,
       default: 0

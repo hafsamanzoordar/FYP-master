@@ -58,6 +58,7 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
+      if (user.isInactive == false) {
       // Create token
 
       const token = jwt.sign({ user_id: user._id, email }, process.env.secret, {
@@ -68,6 +69,10 @@ const login = async (req, res, next) => {
 
       res.status(200).json({ token });
     }
+    else {
+        res.status(200).send("You have been made inactive due to no activity. Please contact us to make your account active again.");
+    }
+  }
   } catch (err) {
     console.log(err);
     res.status(400).send("Invalid Credentials");

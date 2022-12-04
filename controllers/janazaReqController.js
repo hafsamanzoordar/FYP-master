@@ -95,6 +95,24 @@ const approve_janaza = async (req, res) => {
   }
 };
 
+const donate_janaza = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const request = await janazaReq.findById(id);
+    if (request) {
+      request.status = "Donated";
+      console.log(request);
+      request.save();
+      return res.status(200).json("The amount has been donated.");
+    } else {
+      return res.status(403);
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(403);
+  }
+};
+
 const clear_janaza = async (req, res) => {
   try {
     const id = req.params.id;
@@ -148,6 +166,7 @@ module.exports = {
   updatejanazaReq,
   deletejanazaReq,
   approve_janaza,
+  donate_janaza,
   clear_janaza,
   decline_janaza
 };
