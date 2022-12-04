@@ -6,11 +6,11 @@ const whiteCollarReqSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    uni_name: {
+    institute_name: {
       type: String,
       required: true,
     },
-    program: {
+    class: {
       type: String,
       required: true,
     },
@@ -51,30 +51,6 @@ const whiteCollarReqSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    matric_year: {
-      type: String,
-      required: true,
-    },
-    matric_institute: {
-      type: String,
-      required: true,
-    },
-    matric_expenses: {
-      type: String,
-      required: true,
-    },
-    intermediate_year: {
-      type: String,
-      required: true,
-    },
-    intermediate_institute: {
-      type: String,
-      required: true,
-    },
-    intermediate_expenses: {
-      type: String,
-      required: true,
-    },
     family_members: {
       type: String,
       required: true,
@@ -87,11 +63,23 @@ const whiteCollarReqSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    amount: {
+      type: Number,
+      required: true,
+    },
     total_expenditure: {
       type: String,
       required: true,
     },
-    amount: {
+    bankName: {
+      type: String,
+      required: true,
+    },
+    accountName: {
+      type: String,
+      required: true,
+    },
+    accountNumber: {
       type: Number,
       required: true,
     },
