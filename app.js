@@ -100,7 +100,7 @@ app.get("/api/userProfile", async (req, res) => {
     jwt.verify(token, process.env.secret, async (err, decoded) => {
       if (err) {
         console.log(err.errorMessage);
-        return res.send(401).send("Invalid Token");
+        return res.status(401).send("Invalid Token");
       }
       if (decoded) {
         email = decoded.email;
